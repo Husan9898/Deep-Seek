@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deepseek Chat</title>
+  <style>
+    body {font-family: sans-serif; max-width:600px; margin: 2rem auto}
+    #chat-box {height:300px; border:1px solid #ccc; overflow: auto;padding: 1rem}
+    #input-box {width: 100%; margin-top: 1rem;}
+  </style>
+</head>
+<body>
+  <h1>RDP Deepseek Chat</h1>
+  <div id="chat-box"></div>
+  <textarea id="input-box" placeholder="Type your message here..." rows=""3></textarea>
+  <button onclick="sendMessage()">Send</button>
+  <button style="float:right;" onclick="stopGeneration()" id="stop-button">Stop Generation</button>
+  <Script src = "message.js"></Script>
+</body>
+</html>
