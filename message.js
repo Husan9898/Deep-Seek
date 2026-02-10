@@ -44,12 +44,42 @@ async function sendMessage(){
         botDiv.textContent ='Bot: ';
         chatBox.appendChild(botDiv);
 
+        //attaches a read to the stream
         const reader = response.body.getreader();
-        
+        //decode the stream of data chunks coming from the server (utf-8 encoded)
+        const decoder = new TextDecoder();
+
+        //loop read the stream until it done, and appends the docode text to the front-end
+        //automatically scroll the window to the bottom a new content is added
+        while(isGenerating){
+            const {done, value} = await reader.read();
+            if(done) break;
+            botDiv.textContent += decoder.decode(value);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+        }
+
     } catch (error){
+        //if there is an abort error, append that to the chat box to debug
+        if(error.name ==='AbortError'){
+            chatBox.innerHTML += `<div class ="bot-message"> style="color: red;">Error:${error.message}</div>`
+        }
 
     }finally{
+        //always run to display stop button and reset generating state
+        stopbtn.disabled = true;
+        isGenerating = false;
 
     }
 
+}
+
+function stopGeneration() {
+    if(abortController){
+        //calls the abort method on the controller to cancel the fetch request and stop the stream
+        abortController.abort();
+    }
+    isGenerating = false;
+    //disabled the stop button since generation has stopped
+    document.getElementById("stop-btn").disabled = true;
 }
